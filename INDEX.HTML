@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USHA MART - Online MART</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4CAF50;
+            --secondary: #FF9800;
+            --light: #f5f5f5;
+            --dark: #212121;
+            --gray: #757575;
+            --white: #ffffff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: clamp(1.3rem, 3vw, 1.8rem);
+            font-weight: bold;
+        }
+        
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: var(--secondary);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+        
+        /* Navigation */
+        nav ul {
+            display: flex;
+            list-style: none;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: clamp(0.8rem, 2vw, 1rem);
+            padding: 0.3rem 0.5rem;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1550583724-b2692b85b150');
+            background-size: cover;
+            background-position: center;
+            height: clamp(200px, 30vh, 300px);
+            display: flex;
+            align-items: center;
+            color: white;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .hero-content {
+            width: 100%;
+            padding: 0 1rem;
+        }
+        
+        .hero h1 {
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            margin-bottom: 1rem;
+        }
+        
+        .hero h2 {
+            font-size: clamp(0.9rem, 2vw, 1.2rem);
+        }
+        
+        /* Search Section */
+        .search-section {
+            margin: 1.5rem 0;
+        }
+        
+        .search-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        
+        .search-bar {
+            width: 70%;
+            max-width: 600px;
+            padding: 0.7rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 25px 0 0 25px;
+            font-size: clamp(0.9rem, 2vw, 1rem);
+            outline: none;
+        }
+        
+        .search-btn {
+            padding: 0.7rem 1.5rem;
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 0 25px 25px 0;
+            cursor: pointer;
+            font-size: clamp(0.9rem, 2vw, 1rem);
+        }
+        
+        /* Categories */
+        .categories {
+            display: flex;
+            overflow-x: auto;
+            padding: 0.8rem 0;
+            gap: 0.8rem;
+            margin-bottom: 0.5rem;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            justify-content: center;
+        }
+        
+        .categories::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .category-btn {
+            padding: 0.5rem 1.2rem;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            cursor: pointer;
+            white-space: nowrap;
+            font-size: clamp(0.8rem, 2vw, 1rem);
+            flex-shrink: 0;
+        }
+        
+        .category-btn.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        /* Bulk add container - Centered */
+        .bulk-add-container {
+            text-align: center;
+            margin: 1rem auto;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+        
+        .bulk-add-btn {
+            padding: 0.7rem 2rem;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: clamp(0.9rem, 2vw, 1rem);
+            font-weight: bold;
+            width: auto;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+        
+        /* Sticky add to cart button - Centered */
+        .sticky-add-to-cart {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            right: 0;
+            background: #4CAF50;
+            padding: 10px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 90;
+            display: none;
+        }
+        
+        .sticky-add-to-cart button {
+            padding: 0.6rem 1.5rem;
+            background: #388E3C;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: clamp(0.9rem, 2vw, 1rem);
+            font-weight: bold;
+            cursor: pointer;
+            margin: 0 auto;
+            display: block;
+            max-width: 300px;
+            width: auto;
+        }
+        
+        /* Product Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(min(150px, 100%), 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .product-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-3px);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: clamp(120px, 20vw, 200px);
+            object-fit: cover;
+        }
+        
+        .product-info {
+            padding: 0.8rem;
+        }
+        
+        .product-title {
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            margin-bottom: 0.3rem;
+        }
+        
+        .product-price {
+            color: var(--primary);
+            font-weight: bold;
+            font-size: clamp(1rem, 2vw, 1.2rem);
+        }
+        
+        .add-to-cart {
+            display: block;
+            width: 100%;
+            padding: 0.5rem;
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            margin-top: 0.5rem;
+            cursor: pointer;
+            font-size: clamp(0.8rem, 2vw, 0.9rem);
+        }
+        
+        /* Checkbox for multiple selection */
+        .product-checkbox {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            width: 18px;
+            height: 18px;
+            z-index: 1;
+        }
+        
+        /* No results message */
+        .no-results {
+            text-align: center;
+            padding: 1.5rem;
+            grid-column: 1 / -1;
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            color: var(--gray);
+        }
+        
+        /* WhatsApp Button Styles */
+        .whatsapp-btn {
+            display: block;
+            width: 100%;
+            padding: 0.5rem;
+            background-color: #25D366;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            margin-top: 0.3rem;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: clamp(0.8rem, 2vw, 0.9rem);
+        }
+        
+        .whatsapp-btn i {
+            margin-right: 3px;
+        }
+        
+        .product-actions {
+            display: flex;
+            gap: 0.3rem;
+            margin-top: 0.5rem;
+        }
+        
+        .product-actions button {
+            flex: 1;
+        }
+        
+        /* Cart Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 2rem auto;
+            padding: 1.5rem;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 800px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .modal-title {
+            font-size: clamp(1.3rem, 3vw, 1.8rem);
+            font-weight: bold;
+        }
+        
+        .close-btn {
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+        
+        .cart-items {
+            margin-bottom: 2rem;
+        }
+        
+        .cart-item {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+            gap: 0.5rem;
+        }
+        
+        .cart-item-info {
+            display: flex;
+            align-items: center;
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .cart-item-img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-right: 1rem;
+        }
+        
+        .cart-item-name {
+            font-weight: 500;
+            font-size: clamp(0.9rem, 2vw, 1rem);
+        }
+        
+        .cart-item-price {
+            color: var(--primary);
+            font-weight: bold;
+            font-size: clamp(0.9rem, 2vw, 1rem);
+        }
+        
+        .cart-item-quantity {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.3rem;
+        }
+        
+        .quantity-btn {
+            width: 30px;
+            height: 30px;
+            background-color: #f0f0f0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .quantity-input {
+            width: 50px;
+            text-align: center;
+            padding: 0.3rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .remove-item {
+            color: #f44336;
+            cursor: pointer;
+            margin-left: 0.5rem;
+        }
+        
+        .cart-total {
+            text-align: right;
+            font-size: clamp(1.1rem, 3vw, 1.5rem);
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+        }
+        
+        .checkout-form {
+            margin-top: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            font-size: clamp(0.9rem, 2vw, 1rem);
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: clamp(0.9rem, 2vw, 1rem);
+        }
+        
+        .checkout-btn {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 1.5rem;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+            gap: 2rem;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            font-size: clamp(1.1rem, 2vw, 1.3rem);
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+            font-size: clamp(0.9rem, 2vw, 1rem);
+        }
+        
+        .footer-section ul li a {
+            color: #ddd;
+            text-decoration: none;
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.5rem;
+            }
+            
+            nav ul {
+                margin-top: 0.5rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .modal-content {
+                padding: 1rem;
+            }
+            
+            .cart-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .cart-item-info {
+                margin-bottom: 0.5rem;
+            }
+            
+            .sticky-add-to-cart {
+                top: 110px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .search-bar {
+                width: 65%;
+            }
+            
+            .sticky-add-to-cart {
+                top: 100px;
+                padding: 8px;
+            }
+            
+            .sticky-add-to-cart button {
+                padding: 0.5rem 1rem;
+            }
+            
+            .category-btn {
+                padding: 0.4rem 0.8rem;
+            }
+            
+            .cart-item-img {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .bulk-add-btn {
+                padding: 0.6rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">USHA MART</div>
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Products</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li>
+                        <div class="cart-icon" id="cart-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-count" id="cart-count">0</span>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Sticky Add to Cart Button - Centered -->
+    <div class="sticky-add-to-cart" id="sticky-add-btn">
+        <button>Add Selected to Cart</button>
+    </div>
+    
+    <section class="hero">
+        <div class="container hero-content">
+            <h1>Daily needs at your Doorsteps</h1>
+            <h2>We provide the fastest items you order with same-day home delivery within 1 hour. The order will not be taken after 8 pm.</h2>
+            <h3>Order of cake will be accepted before 2 days of the party</h3>
+        </div>
+    </section>
+    
+    <main class="container">
+        <section class="search-section">
+            <div class="search-container">
+                <input type="text" class="search-bar" id="search-input" placeholder="Search for products...">
+                <button class="search-btn" id="search-button">Search</button>
+            </div>
+            
+            <div class="categories">
+                <button class="category-btn active" data-category="all">All</button>
+                <button class="category-btn" data-category="Sweet and Snacks">Sweet & Snacks</button>
+                <button class="category-btn" data-category="Fastfood">Fastfood</button>
+                <button class="category-btn" data-category="Stationaries">Stationaries</button>
+                <button class="category-btn" data-category="Study Materials">Study Materials</button>
+                <button class="category-btn" data-category="Tirpal and Others">Tirpal & Others</button>
+            </div>
+            
+            <!-- Centered Bulk Add Button -->
+            <div class="bulk-add-container">
+                <button class="bulk-add-btn" id="bulk-add-btn">Add Selected to Cart</button>
+            </div>
+        </section>
+        
+        <div class="products-grid" id="products-container">
+            <!-- Products will be loaded here by JavaScript -->
+        </div>
+    </main>
+    
+    <!-- Cart Modal -->
+    <div class="modal" id="cart-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Your Order</h2>
+                <span class="close-btn" id="close-modal">&times;</span>
+            </div>
+            
+            <div class="cart-items" id="cart-items">
+                <!-- Cart items will be added here -->
+            </div>
+            
+            <div class="cart-total">
+                Total: ₹<span id="cart-total">0.00</span>
+            </div>
+            
+            <form class="checkout-form" id="checkout-form">
+                <h3>Customer Information</h3>
+                
+                <div class="form-group">
+                    <label for="customer-name" class="form-label">Full Name</label>
+                    <input type="text" id="customer-name" class="form-input" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="customer-phone" class="form-label">Phone Number</label>
+                    <input type="tel" id="customer-phone" class="form-input" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="customer-address" class="form-label">Delivery Address</label>
+                    <textarea id="customer-address" class="form-input" rows="3" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="customer-notes" class="form-label">Special Instructions (Optional)</label>
+                    <textarea id="customer-notes" class="form-input" rows="2"></textarea>
+                </div>
+                
+                <button type="submit" class="checkout-btn">Place Order via WhatsApp</button>
+            </form>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-section">
+                <h3>About USHA MART</h3>
+                <p>Your local Mart providing fresh, high-quality products.</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Products</a></li>
+                    <li><a href="#">Weekly Specials</a></li>
+                    <li><a href="#">About Us</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <ul>
+                    <li>Kopati bajaar road</li>
+                    <li>kopati, Udalguri, Assam, 784113</li>
+                    <li>Phone: +91 7099447854</li>
+                    <li>Email: info@ushamart.com</li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Product data with prices in Indian Rupees
+        const products = [
+            {id: 1,name: "Birthday Cake half kg",category: "Sweet and Snacks",price: 100,oldPrice: 120,image: "images/bati_cup_set.jpg",description: "after ordering we will provide you the designs"},
+            {id: 2,name: "Birthday Cake one kg",category: "Sweet and Snacks", price: 30, oldPrice: 20, image: "images/glass_plate_set.jpg", description: "after ordering we will provide you the designs"},
+            {id: 3,name: "Cup and Plate Set",category: "Stationaries",price: 40,oldPrice: 120,image: "images/cup_plate_set.jpg",description: "Beautiful cup and plate set"},
+            {id: 4,name: "Glass and Jug Set",category: "Stationaries",price: 60,oldPrice: 120,image: "images/glass_jug_set.jpg",description: "Glass and jug set for serving"},
+            {id: 5,name: "Tray",category: "Stationaries",price: 90,oldPrice: 120,image: "images/tray.jpg",description: "Serving tray for meals"},
+            {id: 6,name: "Study Table for Bed size",category: "Stationaries",price: 50,oldPrice: 120,image: "images/study_table.jpg",description: "Compact study table for beds"},
+            {id: 7,name: "Study table for bed size",category: "Stationaries",price: 220,oldPrice: 120,image: "images/study_table_large.jpg",description: "Large study table for beds"},
+            {id: 8,name: "Clay with accessories",category: "Stationaries",price: 80,oldPrice: 120,image: "images/clay_accessories.jpg",description: "Clay pots with accessories"},
+            {id: 9, name: "Nivia Tennis Ball",category: "Stationaries",price: 40,oldPrice: 60,image: "images/nivia.WEBP",description: "High quality tennis balls"},
+            {id: 10,name: "Cosco Tennis Ball",category: "Stationaries",price: 80,oldPrice: 120,image: "images/cosco_tennis.jpg",description: "Premium tennis balls"},
+            {id: 11,name: "Woods Tennis Ball",category: "Stationaries",price: 80,oldPrice: 120,image: "images/cosco_tennis.jpg",description: "Premium tennis balls"},
+            {id: 12,name: "Smiley ball",category: "Stationaries",price: 80,oldPrice: 120,image: "images/cosco_tennis.jpg",description: "Premium tennis balls pack of 3"},
+            {id: 13,name: "Rosogolla",category: "Sweet and Snacks",price: 100,oldPrice: 120,image: "images/rosogolla.jpg",description: "Delicious Bengali sweet"},
+            {id: 14,name: "Kaju katli",category: "Sweet and Snacks",price: 80,oldPrice: 120,image: "images/kaju_katli.jpg",description: "Cashew fudge sweet" },
+            {id: 15,name: "Rasmalai",category: "Sweet and Snacks",price: 100,oldPrice: 120,image: "images/kaju_katli.jpg",description: "Creamy milk-based sweet"},
+            {id: 16,name: "Gulab Jamun",category: "Sweet and Snacks",price: 100,oldPrice: 120,image: "images/kaju_katli.jpg",description: "Soft fried milk balls in sugar syrup"},
+            {id: 17,name: "20rs Plain copy",category: "Study Materials",price: 110,oldPrice: 120,image: "images/kaju_katli.jpg",description: "Plain copy pack of 6 pieces"},
+            {id: 18,name: "30rs Plain copy",category: "Study Materials",price: 160,oldPrice: 180,image: "images/kaju_katli.jpg",description: "Plain copy pack of 6 pieces"},
+            {id: 19,name: "40rs Plain copy",category: "Study Materials",price: 220,oldPrice: 240,image: "images/kaju_katli.jpg",description: "Plain copy pack of 6 pieces"},
+            {id: 20,name: "50rs Plain copy",category: "Study Materials",price: 270,oldPrice: 300,image: "images/kaju_katli.jpg",description: "Plain copy pack of 6 pieces"},
+            {id: 21,name: "60rs Plain copy",category: "Study Materials",price: 320,oldPrice: 360,image: "images/kaju_katli.jpg",description: "Plain copy pack of 6 pieces"},
+            {id: 22,name: "70rs Plain copy",category: "Study Materials",price: 380,oldPrice: 420,image: "images/kaju_katli.jpg",description: "Plain copy pack of 6 pieces"},
+            {id: 23,name: "80rs Plain copy",category: "Study Materials",price: 430,oldPrice: 480,image: "images/kaju_katli.jpg",description: "Plain copy pack of 6 pieces"},
+            {id: 24,name: "100rs Plain copy",category: "Study Materials",price: 540,oldPrice: 600,image: "images/kaju_katli.jpg",description: "Plain copy pack of 6 pieces"},
+            {id: 25,name: "110rs Plain copy",category: "Study Materials",price: 600,oldPrice: 660,image: "images/kaju_katli.jpg",description: "Plain copy pack of 6 pieces"},
+            {id: 26,name: "120rs Plain copy",category: "Study Materials",price: 650,oldPrice: 720,image: "images/kaju_katli.jpg",description: "Plain copy pack of 6 pieces"},
+            {id: 27,name: "20rs Two line or rule copy",category: "Study Materials",price: 110,oldPrice: 120,image: "images/kaju_katli.jpg",description: "Two line or rule copy pack of 6 pieces"},
+            {id: 28,name: "30rs Two line or rule copy",category: "Study Materials",price: 160,oldPrice: 180,image: "images/kaju_katli.jpg",description: "Two line or rule copy pack of 6 pieces"},
+            {id: 29,name: "40rs Two line or rule copy",category: "Study Materials",price: 220,oldPrice: 240,image: "images/kaju_katli.jpg",description: "Two line or rule copy pack of 6 pieces"},
+            {id: 30,name: "50rs Two line or rule copy",category: "Study Materials",price: 270,oldPrice: 300,image: "images/kaju_katli.jpg",description: "Two line or rule copy pack of 6 pieces"},
+            {id: 31,name: "60rs Two line or rule copy",category: "Study Materials",price: 320,oldPrice: 360,image: "images/kaju_katli.jpg",description: "Two line or rule copy pack of 6 pieces"},
+            {id: 32,name: "70rs Two line or rule copy",category: "Study Materials",price: 380,oldPrice: 420,image: "images/kaju_katli.jpg",description: "Two line or rule copy pack of 6 pieces"},
+            {id: 33,name: "80rs Two line or rule copy",category: "Study Materials",price: 430,oldPrice: 480,image: "images/kaju_katli.jpg",description: "Two line or rule copy pack of 6 pieces"},
+            {id: 34,name: "100rs Two line or rule copy",category: "Study Materials",price: 540,oldPrice: 600,image: "images/kaju_katli.jpg",description: "Two line or rule copy pack of 6 pieces"},
+            {id: 35,name: "110rs Two line or rule copy",category: "Study Materials",price: 600,oldPrice: 660,image: "images/kaju_katli.jpg",description: "Two line or rule copy pack of 6 pieces"},
+            {id: 36,name: "120rs Two line or rule copy",category: "Study Materials",price: 650,oldPrice: 720,image: "images/kaju_katli.jpg",description: "Two line or rule copy pack of 6 pieces"},
+            {id: 37,name: "20rs Four Line  copy",category: "Study Materials",price: 110,oldPrice: 120,image: "images/kaju_katli.jpg",description: "Four Line  copy pack of 6 pieces"},
+            {id: 38,name: "30rs Four Line  copy",category: "Study Materials",price: 160,oldPrice: 180,image: "images/kaju_katli.jpg",description: "Four Line  copy pack of 6 pieces"},
+            {id: 39,name: "40rs Four Line  copy",category: "Study Materials",price: 220,oldPrice: 240,image: "images/kaju_katli.jpg",description: "Four Line  copy pack of 6 pieces"},
+            {id: 40,name: "50rs Four Line  copy",category: "Study Materials",price: 270,oldPrice: 300,image: "images/kaju_katli.jpg",description: "Four Line  copy pack of 6 pieces"},
+            {id: 41,name: "60rs Four Line  copy",category: "Study Materials",price: 320,oldPrice: 360,image: "images/kaju_katli.jpg",description: "Four Line  copy pack of 6 pieces"},
+            {id: 42,name: "70rs Four Line  copy",category: "Study Materials",price: 380,oldPrice: 420,image: "images/kaju_katli.jpg",description: "Four Line  copy pack of 6 pieces"},
+            {id: 43,name: "80rs Four Line  copy",category: "Study Materials",price: 430,oldPrice: 480,image: "images/kaju_katli.jpg",description: "Four Line  copy pack of 6 pieces"},
+            {id: 44,name: "100rs Four Line  copy",category: "Study Materials",price: 540,oldPrice: 600,image: "images/kaju_katli.jpg",description: "Four Line  copy pack of 6 pieces"},
+            {id: 45,name: "110rs Four Line  copy",category: "Study Materials",price: 600,oldPrice: 660,image: "images/kaju_katli.jpg",description: "Four Line  copy pack of 6 pieces"},
+            {id: 46,name: "120rs Four Line  copy",category: "Study Materials",price: 650,oldPrice: 720,image: "images/kaju_katli.jpg",description: "Four Line  copy pack of 6 pieces"},
+            {id: 47,name: "Cup pack of 6",category: "Stationaries",price: 1,oldPrice: 1,image: "images/nivia.WEBP",description: ""},
+            {id: 48,name: "Bati pack of 6",category: "Stationaries",price: 1,oldPrice: 1,image: "images/nivia.WEBP",description: ""},
+            {id: 49,name: "Lemon set",category: "Stationaries",price: 1,oldPrice: 1,image: "images/nivia.WEBP",description: ""},
+            {id: 50,name: "Party popper small",category: "Stationaries",price: 1,oldPrice: 1,image: "images/nivia.WEBP",description: ""},
+            {id: 51,name: "Party popper big",category: "Stationaries",price: 1,oldPrice: 1,image: "images/nivia.WEBP",description: ""},
+            {id: 52,name: "Snow spray small",category: "Stationaries",price: 1,oldPrice: 1,image: "images/nivia.WEBP",description: ""},
+            {id: 53,name: "Snow spray big",category: "Stationaries",price: 1,oldPrice: 1,image: "images/nivia.WEBP",description: ""},
+            {id: 54,name: "Photo Frame of God",category: "Stationaries",price: 1,oldPrice: 1,image: "images/nivia.WEBP",description: "Add god name in the Special Instruction"},
+            {id: 55,name: "Kanya Dan thermocol plate",category: "Stationaries",price: 1,oldPrice: 1,image: "images/nivia.WEBP",description: ""},
+            {id: 56,name: "Shubho bibaho thermocol plate",category: "Stationaries",price: 1,oldPrice: 1,image: "images/nivia.WEBP",description: ""},
+            {id: 57,name: "Bodhu boron thermocol plate",category: "Stationaries",price: 1,oldPrice: 1,image: "images/nivia.WEBP",description: ""},
+            {id: 58,name: "Baloon ",category: "Stationaries",price: 1,oldPrice: 1,image: "images/nivia.WEBP",description: "Pack of 50 pcs And colour as your choice"},
+            {id: 59,name: "Motor Pipe",category: "Stationaries",price: 1,oldPrice: 1,image: "images/nivia.WEBP",description: "size as your choice "},
+            {id: 60,name: "LED Bulb",category: "Stationaries",price: 1,oldPrice: 1,image: "images/nivia.WEBP",description: "Watt at your need"},
+            {id: 61,name: "Ful jharu",category: "",price: 320,oldPrice: 360,image: "images/kaju_katli.jpg",description: ""},
+            {id: 62,name: "Ful jharu",category: "",price: 380,oldPrice: 420,image: "images/kaju_katli.jpg",description: ""},
+            {id: 63,name: "Ful jharu",category: "",price: 430,oldPrice: 480,image: "images/kaju_katli.jpg",description: ""},
+            {id: 64,name: "Rubber wiper for floor water",category: "",price: 540,oldPrice: 600,image: "images/kaju_katli.jpg",description: ""},
+            {id: 65,name: "Mop stick floor cleaner",category: "",price: 600,oldPrice: 660,image: "images/kaju_katli.jpg",description: ""},
+            {id: 66,name: "Milton plactic bottle 1 ltr",category: "",price: 650,oldPrice: 720,image: "images/kaju_katli.jpg",description: "Pack of 6   "},
+            {id: 67,name: "Milton plastic bottle half ltr",category: "",price: 110,oldPrice: 120,image: "images/kaju_katli.jpg",description: "Pack of 6 "},
+            {id: 68,name: "Cup set of 6pcs",category: "",price: 160,oldPrice: 180,image: "images/kaju_katli.jpg",description: ""},
+            {id: 69,name: "Stick File with 25 pages",category: "Study Materials",price: 50,oldPrice: 60,image: "images/kaju_katli.jpg",description: ""},
+            {id: 70,name: "Dinner set",category: "Stationaries",price: 270,oldPrice: 300,image: "images/kaju_katli.jpg",description: "dinner set set for dining"},
+            {id: 71,name: "Doms Geommy",category: "Study Materials",price: 320,oldPrice: 360,image: "images/kaju_katli.jpg",description: ""},
+            {id: 72,name: "Doms modelling clay",category: "Study Materials",price: 380,oldPrice: 420,image: "images/kaju_katli.jpg",description: ""},
+            {id: 73,name: "Doms Champion kit ",category: "Study Materials",price: 430,oldPrice: 480,image: "images/kaju_katli.jpg",description: ""},
+            {id: 74,name: "Doms Colour pencil",category: "Study Materials",price: 540,oldPrice: 600,image: "images/kaju_katli.jpg",description: ""},
+            {id: 75,name: "Doms refillable colour cakes",category: "Study Materials",price: 600,oldPrice: 660,image: "images/kaju_katli.jpg",description: ""},
+            {id: 76,name: "Doms x1 premium ",category: "Study Materials",price: 650,oldPrice: 720,image: "images/kaju_katli.jpg",description: ""},
+            {id: 77,name: "Classmate Asteriod",category: "Study Materials",price: 110,oldPrice: 120,image: "images/kaju_katli.jpg",description: ""},
+            {id: 78,name: "Camel oil pastels 25shades",category: "Study Materials",price: 160,oldPrice: 180,image: "images/kaju_katli.jpg",description: ""},
+            {id: 79,name: "Kangaroo Stapler",category: "Study Materials",price: 220,oldPrice: 240,image: "images/kaju_katli.jpg",description: ""},
+            {id: 80,name: "Kanchan Slate",category: "Study Materials",price: 270,oldPrice: 300,image: "images/kaju_katli.jpg",description: ""},
+            {id: 81,name: "Smart Shiksha Geometry",category: "Study Materials",price: 320,oldPrice: 360,image: "images/kaju_katli.jpg",description: ""},
+            {id: 82,name: "Vidya Geometry box",category: "Study Materials",price: 380,oldPrice: 420,image: "images/kaju_katli.jpg",description: ""},
+            {id: 83,name: "Luxury Dough art",category: "Study Materials",price: 380,oldPrice: 420,image: "images/kaju_katli.jpg",description: ""},
+            {id: 84,name: "Doms Plastic Crayons",category: "Study Materials",price: 380,oldPrice: 420,image: "images/kaju_katli.jpg",description: ""},
+            {id: 85,name: "Doms arcylic colours",category: "Study Materials",price: 380,oldPrice: 420,image: "images/kaju_katli.jpg",description: ""},
+            {id: 86,name: "Camel Acrylic colours",category: "Study Materials",price: 430,oldPrice: 480,image: "images/kaju_katli.jpg",description: ""},
+            {id: 87,name: "",category: "Study Materials",price: 540,oldPrice: 600,image: "images/kaju_katli.jpg",description: ""},
+            {id: 88,name: "",category: "Study Materials",price: 600,oldPrice: 660,image: "images/kaju_katli.jpg",description: ""},
+            {id: 89,name: "",category: "Study Materials",price: 650,oldPrice: 720,image: "images/kaju_katli.jpg",description: ""},
+            {id: 90,name: "",category: "Study Materials",price: 110,oldPrice: 120,image: "images/kaju_katli.jpg",description: ""},
+            {id: 91,name: "",category: "Study Materials",price: 160,oldPrice: 180,image: "images/kaju_katli.jpg",description: ""},
+            {id: 92,name: "",category: "Study Materials",price: 220,oldPrice: 240,image: "images/kaju_katli.jpg",description: ""},
+            {id: 92,name: "",category: "Study Materials",price: 270,oldPrice: 300,image: "images/kaju_katli.jpg",description: ""},
+        ];
+
+        // Cart functionality
+        let cart = [];
+        let selectedProducts = [];
+        
+        // Business WhatsApp number
+        const businessWhatsAppNumber = "917099447854";
+        
+        // DOM elements
+        const productsContainer = document.getElementById('products-container');
+        const searchInput = document.getElementById('search-input');
+        const searchButton = document.getElementById('search-button');
+        const categoryButtons = document.querySelectorAll('.category-btn');
+        const cartIcon = document.getElementById('cart-icon');
+        const cartCount = document.getElementById('cart-count');
+        const cartModal = document.getElementById('cart-modal');
+        const closeModal = document.getElementById('close-modal');
+        const cartItemsContainer = document.getElementById('cart-items');
+        const cartTotal = document.getElementById('cart-total');
+        const checkoutForm = document.getElementById('checkout-form');
+        const bulkAddBtn = document.getElementById('bulk-add-btn');
+        
+        // Generate WhatsApp message with product descriptions
+        function generateWhatsAppMessage(formData) {
+            let message = `*New Order from USHA MART*%0A%0A`;
+            message += `*Customer Name:* ${formData.name}%0A`;
+            message += `*Phone:* ${formData.phone}%0A`;
+            message += `*Address:* ${formData.address}%0A`;
+            
+            if (formData.notes) {
+                message += `*Special Instructions:* ${formData.notes}%0A`;
+            }
+            
+            message += `%0A*Order Details:*%0A`;
+            
+            cart.forEach(item => {
+                const product = products.find(p => p.id === item.id);
+                const description = product ? product.description : '';
+                message += `- ${item.name} (${description}) x${item.quantity} - ₹${(item.price * item.quantity).toFixed(2)}%0A`;
+            });
+            
+            message += `%0A*Total:* ₹${cart.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2)}`;
+            
+            return message;
+        }
+
+        // Function for direct WhatsApp ordering with description
+        function orderViaWhatsApp(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+            
+            // Get customer info
+            const customerName = prompt("Please enter your name:");
+            if (!customerName) return;
+            
+            const customerPhone = prompt("Please enter your phone number:");
+            if (!customerPhone) return;
+            
+            const customerAddress = prompt("Please enter your delivery address:");
+            if (!customerAddress) return;
+            
+            const notes = prompt("Any special instructions? (Optional)");
+            
+            // Generate WhatsApp message with description
+            let message = `*New Order from USHA MART*%0A%0A`;
+            message += `*Customer Name:* ${customerName}%0A`;
+            message += `*Phone:* ${customerPhone}%0A`;
+            message += `*Address:* ${customerAddress}%0A`;
+            
+            if (notes) {
+                message += `*Special Instructions:* ${notes}%0A`;
+            }
+            
+            message += `%0A*Order Details:*%0A`;
+            message += `- ${product.name} (${product.description}) x1 - ₹${product.price.toFixed(2)}%0A`;
+            message += `%0A*Total:* ₹${product.price.toFixed(2)}`;
+            
+            // Open WhatsApp
+            window.open(`https://wa.me/${businessWhatsAppNumber}?text=${message}`, '_blank');
+        }
+
+        // Render products
+        function renderProducts(productsToRender, searchTerm = '') {
+            productsContainer.innerHTML = '';
+            selectedProducts = [];
+            
+            if (productsToRender.length === 0) {
+                productsContainer.innerHTML = '<div class="no-results">No products found matching your search.</div>';
+                document.getElementById('bulk-add-btn').style.display = 'none';
+                document.getElementById('sticky-add-btn').style.display = 'none';
+                return;
+            }
+            
+            document.getElementById('bulk-add-btn').style.display = 'block';
+            
+            productsToRender.forEach(product => {
+                let nameDisplay = product.name;
+                let descDisplay = product.description;
+                
+                // Highlight search terms
+                if (searchTerm) {
+                    const regex = new RegExp(searchTerm, 'gi');
+                    nameDisplay = product.name.replace(regex, match => 
+                        `<span class="search-highlight">${match}</span>`);
+                    descDisplay = product.description.replace(regex, match => 
+                        `<span class="search-highlight">${match}</span>`);
+                }
+                
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                productCard.innerHTML = `
+                    <input type="checkbox" class="product-checkbox" data-id="${product.id}">
+                    <img src="${product.image}" alt="${product.name}" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-title">${nameDisplay}</h3>
+                        <p style="color:var(--gray);font-size:0.9rem;margin-bottom:0.5rem;">${descDisplay}</p>
+                        <p class="product-price">₹${product.price.toFixed(2)}${product.oldPrice ? ` <span style="color:var(--gray);text-decoration:line-through;font-size:1rem;">₹${product.oldPrice.toFixed(2)}</span>` : ''}</p>
+                        <div class="product-actions">
+                            <button class="add-to-cart" data-id="${product.id}">Add to Cart</button>
+                            <button class="whatsapp-btn" data-id="${product.id}">
+                                <i class="fab fa-whatsapp"></i> Buy Now
+                            </button>
+                        </div>
+                    </div>
+                `;
+                productsContainer.appendChild(productCard);
+            });
+            
+            // Add event listeners to new cart buttons
+            document.querySelectorAll('.add-to-cart').forEach(button => {
+                button.addEventListener('click', function() {
+                    const productId = parseInt(this.getAttribute('data-id'));
+                    addToCart(productId);
+                });
+            });
+            
+            // Add event listeners to WhatsApp buttons
+            document.querySelectorAll('.whatsapp-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const productId = parseInt(this.getAttribute('data-id'));
+                    orderViaWhatsApp(productId);
+                });
+            });
+            
+            // Add event listeners to checkboxes
+            document.querySelectorAll('.product-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const productId = parseInt(this.getAttribute('data-id'));
+                    if (this.checked) {
+                        selectedProducts.push(productId);
+                    } else {
+                        selectedProducts = selectedProducts.filter(id => id !== productId);
+                    }
+                });
+            });
+        }
+        
+        // Add multiple items to cart
+        function addSelectedToCart() {
+            selectedProducts.forEach(productId => {
+                addToCart(productId);
+            });
+            // Clear selection after adding
+            document.querySelectorAll('.product-checkbox').forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            selectedProducts = [];
+        }
+        
+        // Add item to cart
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            
+            if (!product) return;
+            
+            const existingItem = cart.find(item => item.id === productId);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    image: product.image,
+                    quantity: 1
+                });
+            }
+            
+            updateCart();
+            showCartModal();
+        }
+        
+        // Update cart count
+        function updateCart() {
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCount.textContent = totalItems;
+            
+            // Update cart modal
+            renderCartItems();
+        }
+        
+        // Render cart items in modal
+        function renderCartItems() {
+            cartItemsContainer.innerHTML = '';
+            
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '<p>Your cart is empty</p>';
+                cartTotal.textContent = '0.00';
+                return;
+            }
+            
+            let total = 0;
+            
+            cart.forEach(item => {
+                const product = products.find(p => p.id === item.id);
+                const description = product ? product.description : '';
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                
+                const cartItem = document.createElement('div');
+                cartItem.className = 'cart-item';
+                cartItem.innerHTML = `
+                    <div class="cart-item-info">
+                        <img src="${item.image}" alt="${item.name}" class="cart-item-img">
+                        <div>
+                            <div class="cart-item-name">${item.name}</div>
+                            <div class="cart-item-description" style="color:var(--gray);font-size:0.9rem;">${description}</div>
+                            <div class="cart-item-price">₹${item.price.toFixed(2)}</div>
+                        </div>
+                    </div>
+                    <div class="cart-item-quantity">
+                        <button class="quantity-btn minus" data-id="${item.id}">-</button>
+                        <input type="number" class="quantity-input" value="${item.quantity}" min="1" data-id="${item.id}">
+                        <button class="quantity-btn plus" data-id="${item.id}">+</button>
+                        <span class="remove-item" data-id="${item.id}"><i class="fas fa-trash"></i></span>
+                    </div>
+                    <div class="cart-item-total">₹${itemTotal.toFixed(2)}</div>
+                `;
+                cartItemsContainer.appendChild(cartItem);
+            });
+            
+            cartTotal.textContent = total.toFixed(2);
+            
+            // Add event listeners to quantity controls
+            document.querySelectorAll('.quantity-btn.minus').forEach(button => {
+                button.addEventListener('click', function() {
+                    const productId = parseInt(this.getAttribute('data-id'));
+                    updateCartItemQuantity(productId, -1);
+                });
+            });
+            
+            document.querySelectorAll('.quantity-btn.plus').forEach(button => {
+                button.addEventListener('click', function() {
+                    const productId = parseInt(this.getAttribute('data-id'));
+                    updateCartItemQuantity(productId, 1);
+                });
+            });
+            
+            document.querySelectorAll('.quantity-input').forEach(input => {
+                input.addEventListener('change', function() {
+                    const productId = parseInt(this.getAttribute('data-id'));
+                    const newQuantity = parseInt(this.value) || 1;
+                    updateCartItemQuantity(productId, 0, newQuantity);
+                });
+            });
+            
+            document.querySelectorAll('.remove-item').forEach(button => {
+                button.addEventListener('click', function() {
+                    const productId = parseInt(this.getAttribute('data-id'));
+                    removeCartItem(productId);
+                });
+            });
+        }
+        
+        // Update cart item quantity
+        function updateCartItemQuantity(productId, change, newQuantity = null) {
+            const item = cart.find(item => item.id === productId);
+            
+            if (!item) return;
+            
+            if (newQuantity !== null) {
+                item.quantity = newQuantity;
+            } else {
+                item.quantity += change;
+            }
+            
+            // Remove if quantity is 0 or less
+            if (item.quantity <= 0) {
+                cart = cart.filter(item => item.id !== productId);
+            }
+            
+            updateCart();
+        }
+        
+        // Remove item from cart
+        function removeCartItem(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCart();
+        }
+        
+        // Show cart modal
+        function showCartModal() {
+            cartModal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Hide cart modal
+        function hideCartModal() {
+            cartModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Filter products by search term and category
+        function filterProducts() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const activeCategory = document.querySelector('.category-btn.active').dataset.category;
+            
+            const filteredProducts = products.filter(product => {
+                const matchesSearch = product.name.toLowerCase().includes(searchTerm) || 
+                                     product.description.toLowerCase().includes(searchTerm);
+                const matchesCategory = activeCategory === 'all' || 
+                                       product.category === activeCategory;
+                
+                return matchesSearch && matchesCategory;
+            });
+            
+            renderProducts(filteredProducts, searchTerm);
+        }
+        
+        // Sticky button scroll behavior
+        window.addEventListener('scroll', function() {
+            const stickyBtn = document.getElementById('sticky-add-btn');
+            const originalBtn = document.querySelector('.bulk-add-container');
+            
+            if (window.scrollY > originalBtn.offsetTop) {
+                stickyBtn.style.display = 'block';
+            } else {
+                stickyBtn.style.display = 'none';
+            }
+        });
+        
+        // Event listeners
+        searchButton.addEventListener('click', filterProducts);
+        searchInput.addEventListener('keyup', function(e) {
+            if (e.key === 'Enter') filterProducts();
+        });
+
+        categoryButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                categoryButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                filterProducts();
+            });
+        });
+        
+        cartIcon.addEventListener('click', showCartModal);
+        closeModal.addEventListener('click', hideCartModal);
+        bulkAddBtn.addEventListener('click', addSelectedToCart);
+        document.getElementById('sticky-add-btn').addEventListener('click', addSelectedToCart);
+        
+        // Close modal when clicking outside
+        window.addEventListener('click', function(e) {
+            if (e.target === cartModal) {
+                hideCartModal();
+            }
+        });
+        
+        // Form submission
+        checkoutForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                name: document.getElementById('customer-name').value,
+                phone: document.getElementById('customer-phone').value,
+                address: document.getElementById('customer-address').value,
+                notes: document.getElementById('customer-notes').value
+            };
+            
+            const whatsappMessage = generateWhatsAppMessage(formData);
+            const whatsappUrl = `https://wa.me/${businessWhatsAppNumber}?text=${whatsappMessage}`;
+            
+            // Open WhatsApp in new tab
+            window.open(whatsappUrl, '_blank');
+            
+            // Optionally clear the cart after order
+            cart = [];
+            updateCart();
+            hideCartModal();
+            checkoutForm.reset();
+            
+            alert('Your order has been submitted via WhatsApp! We will contact you shortly.');
+        });
+        
+        // Initialize the page with all products
+        document.addEventListener('DOMContentLoaded', function() {
+            renderProducts(products);
+        });
+    </script>
+</body>
+</html>
